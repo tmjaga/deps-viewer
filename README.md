@@ -13,21 +13,19 @@ DepsViewer is a lightweight, zero-backend tool for visualizing PHP (Composer) an
 - **Paste or upload** — type/paste JSON directly or upload your manifest files
 - **Prod/Dev filtering** — toggle between production, dev, and all packages
 - **Live search** — filter packages by name or description instantly
-- **Progress tracking** — animated progress bar while packages are being fetched
-- **Skeleton loading** — cards render immediately with placeholders while data loads
 - **Zero backend** — entirely client-side; no server, no build step needed for the viewer itself
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| UI Reactivity | [Alpine.js](https://alpinejs.dev/) v3 |
-| Fonts | Space Mono + Syne via Google Fonts |
-| Bundler | [Vite](https://vitejs.dev/) |
-| PHP data | Packagist API (`repo.packagist.org/p2`) |
-| NPM data | NPM Registry API (`registry.npmjs.org`) |
+| Layer         | Technology                              |
+| ------------- | --------------------------------------- |
+| UI Reactivity | [Alpine.js](https://alpinejs.dev/) v3   |
+| Fonts         | Space Mono + Syne via Google Fonts      |
+| Bundler       | [Vite](https://vitejs.dev/)             |
+| PHP data      | Packagist API (`repo.packagist.org/p2`) |
+| NPM data      | NPM Registry API (`registry.npmjs.org`) |
 
 ---
 
@@ -77,11 +75,12 @@ Serves the production build locally for final verification.
 1. **Paste** your `composer.json` into the PHP panel and/or your `package.json` into the NPM panel, **or** click the file input to upload the files directly.
 2. Click **▶ Analyze**.
 3. DepsViewer fetches live metadata for every package and renders cards with:
-   - Package name (linked to Packagist / npmjs.com)
-   - Description
-   - Required version range
-   - Latest published version
-   - `dev` badge for dev-only dependencies
+    - Package name (linked to Packagist / npmjs.com)
+    - Description
+    - GitLab repository link
+    - Required version range
+    - Latest published version
+    - `dev` badge for dev-only dependencies
 4. Use the **search box** and **All / Prod / Dev** filter chips to narrow results.
 5. Click **Clear** to reset and start over.
 
@@ -89,18 +88,27 @@ Serves the production build locally for final verification.
 
 ## Project Structure
 
-```
+````
 deps-viewer/
-├── index.html        # App shell + Alpine.js component logic
-├── js/
-│   └── app.js        # Alpine bootstrap + Google Fonts injection
-├── styles.css        # All styles
-├── package.json      # Project metadata & scripts
-└── vite.config.js    # (optional) Vite configuration
-```
+├── src/
+│   ├── css/
+│   │   └── styles.css      # All styles
+│   ├── js/
+│   │   └── app.js          # Alpine bootstrap + Google Fonts injection
+│   └── index.html          # App shell + Alpine.js component logic
+├── public/
+│   └── images/
+│       └── favicon.ico     # App icon
+├── .gitignore
+├── README.md
+├── package.json            # Project metadata & scripts
+├── package-lock.json
+└── vite.config.js          # Vite configuration
+​```
 
 ---
 
 ## License
 
 ISC
+````
