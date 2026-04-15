@@ -1,6 +1,6 @@
 # DepsViewer {}
 
-> Paste your `composer.json` and/or `package.json` — get clean, enriched dependency info instantly.
+Paste your `composer.json` and/or `package.json` — get clean, enriched dependency info instantly.
 
 DepsViewer is a lightweight, zero-backend tool for visualizing PHP (Composer) and JavaScript (NPM) project dependencies. Drop in your manifest files and get live-fetched package descriptions, latest versions, and at-a-glance stats — all in a clean, filterable UI.
 
