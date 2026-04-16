@@ -1,5 +1,6 @@
 import Alpine from 'alpinejs';
 
+window.APP_VERSION = __APP_VERSION__;
 window.Alpine = Alpine;
 Alpine.start();
 

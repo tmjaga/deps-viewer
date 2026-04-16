@@ -16,10 +16,7 @@
                     <div class="logo-icon">{}}</div>
                     <h1>Deps<span style="opacity: 0.4">Viewer</span></h1>
                 </div>
-                <p class="subtitle">
-                    // paste or upload your composer.json &amp; package.json →
-                    get clean dependency info
-                </p>
+                <p class="subtitle">// paste or upload your composer.json &amp; package.json → get clean dependency info</p>
             </header>
 
             <!-- Input panels -->
@@ -35,12 +32,7 @@
                         placeholder='{"require": {"laravel/framework": "^11.0", "spatie/permission": "^6.0"}, "require-dev": {"phpunit/phpunit": "^11.0"}}'
                         spellcheck="false"
                     ></textarea>
-                    <input
-                        @change="handleFileSelect"
-                        type="file"
-                        id="composerUpload"
-                        accept=".json"
-                    />
+                    <input @change="handleFileSelect" type="file" id="composerUpload" accept=".json" />
                 </div>
                 <div class="panel npm">
                     <div class="panel-header">
@@ -52,48 +44,26 @@
                         placeholder='{"dependencies": {"axios": "^1.6.0", "vue": "^3.4.0"}, "devDependencies": {"vite": "^5.0.0"}}'
                         spellcheck="false"
                     ></textarea>
-                    <input
-                        @change="handleFileSelect"
-                        type="file"
-                        id="packageUpload"
-                        accept=".json"
-                    />
+                    <input @change="handleFileSelect" type="file" id="packageUpload" accept=".json" />
                 </div>
             </div>
 
             <!-- Action row -->
             <div class="action-row">
-                <button
-                    type="button"
-                    class="btn-analyze"
-                    @click="analyze()"
-                    :disabled="loading"
-                >
+                <button type="button" class="btn-analyze" @click="analyze()" :disabled="loading">
                     <template x-if="!loading">
                         <span>▶ Analyze</span>
                     </template>
                     <template x-if="loading">
-                        <span
-                            style="display: flex; align-items: center; gap: 6px"
-                        >
+                        <span style="display: flex; align-items: center; gap: 6px">
                             <span class="loading-dot"></span>
                             <span class="loading-dot"></span>
                             <span class="loading-dot"></span>
                         </span>
                     </template>
                 </button>
-                <button
-                    class="btn-clear"
-                    @click="clear()"
-                    x-show="phpPackages.length || npmPackages.length"
-                >
-                    Clear
-                </button>
-                <span
-                    class="status-msg"
-                    x-show="loading"
-                    x-text="statusMsg"
-                ></span>
+                <button class="btn-clear" @click="clear()" x-show="phpPackages.length || npmPackages.length">Clear</button>
+                <span class="status-msg" x-show="loading" x-text="statusMsg"></span>
             </div>
 
             <!-- Error -->
@@ -110,33 +80,19 @@
                     <!-- Stats -->
                     <div class="stats-bar">
                         <div class="stat" x-show="phpPackages.length">
-                            <span
-                                class="stat-val php"
-                                x-text="phpPackages.length"
-                            ></span>
+                            <span class="stat-val php" x-text="phpPackages.length"></span>
                             <span class="stat-label">PHP packages</span>
                         </div>
                         <div class="stat" x-show="phpDevPackages.length">
-                            <span
-                                class="stat-val"
-                                style="color: #fbbf24"
-                                x-text="phpDevPackages.length"
-                            ></span>
+                            <span class="stat-val" style="color: #fbbf24" x-text="phpDevPackages.length"></span>
                             <span class="stat-label">PHP dev</span>
                         </div>
                         <div class="stat" x-show="npmPackages.length">
-                            <span
-                                class="stat-val npm"
-                                x-text="npmPackages.length"
-                            ></span>
+                            <span class="stat-val npm" x-text="npmPackages.length"></span>
                             <span class="stat-label">NPM packages</span>
                         </div>
                         <div class="stat" x-show="npmDevPackages.length">
-                            <span
-                                class="stat-val"
-                                style="color: #fbbf24"
-                                x-text="npmDevPackages.length"
-                            ></span>
+                            <span class="stat-val" style="color: #fbbf24" x-text="npmDevPackages.length"></span>
                             <span class="stat-label">NPM dev</span>
                         </div>
                     </div>
@@ -163,13 +119,7 @@
 
                     <!-- Filter row -->
                     <div class="filter-row">
-                        <input
-                            type="text"
-                            class="search-box"
-                            :class="activeTab"
-                            placeholder="Search packages..."
-                            x-model="searchQ"
-                        />
+                        <input type="text" class="search-box" :class="activeTab" placeholder="Search packages..." x-model="searchQ" />
                         <button
                             class="filter-chip"
                             :class="devFilter === 'all' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''"
@@ -195,126 +145,64 @@
 
                     <!-- Cards -->
                     <div class="pkg-grid" x-show="activeTab === 'php'" x-cloak>
-                        <template
-                            x-for="(pkg, i) in filteredPhp"
-                            :key="pkg.name"
-                        >
-                            <div
-                                class="pkg-card"
-                                :style="`animation-delay: ${i * 30}ms`"
-                            >
+                        <template x-for="(pkg, i) in filteredPhp" :key="pkg.name">
+                            <div class="pkg-card" :style="`animation-delay: ${i * 30}ms`">
                                 <div>
                                     <div class="pkg-name">
-                                        <a
-                                            :href="`https://packagist.org/packages/${pkg.name}`"
-                                            target="_blank"
-                                            x-text="pkg.name"
-                                        ></a>
+                                        <a :href="`https://packagist.org/packages/${pkg.name}`" target="_blank" x-text="pkg.name"></a>
                                     </div>
                                     <template x-if="pkg.loading">
                                         <div class="skeleton-desc"></div>
                                     </template>
                                     <template x-if="!pkg.loading">
                                         <div>
-                                            <div
-                                                class="pkg-desc"
-                                                x-text="pkg.description || 'No description available'"
-                                            ></div>
-                                            <a
-                                                x-show="pkg.gitlab"
-                                                :href="pkg.gitlab"
-                                                target="_blank"
-                                                class="pkg-github"
-                                                >GitHub →</a
-                                            >
+                                            <div class="pkg-desc" x-text="pkg.description || 'No description available'"></div>
+                                            <a x-show="pkg.gitlab" :href="pkg.gitlab" target="_blank" class="pkg-github">GitHub →</a>
                                         </div>
                                     </template>
                                     <div class="pkg-meta">
-                                        <span
-                                            class="ver-required"
-                                            x-text="'requires: ' + pkg.required"
-                                        ></span>
-                                        <span
-                                            class="ver-installed php"
-                                            x-show="pkg.version"
-                                            x-text="pkg.version"
-                                        ></span>
+                                        <span class="ver-required" x-text="'requires: ' + pkg.required"></span>
+                                        <span class="ver-installed php" x-show="pkg.version" x-text="pkg.version"></span>
                                     </div>
                                 </div>
                                 <div class="pkg-right">
-                                    <span class="dev-badge" x-show="pkg.dev"
-                                        >dev</span
-                                    >
+                                    <span class="dev-badge" x-show="pkg.dev">dev</span>
                                 </div>
                             </div>
                         </template>
-                        <div
-                            class="empty-state"
-                            x-show="filteredPhp.length === 0"
-                        >
+                        <div class="empty-state" x-show="filteredPhp.length === 0">
                             <div class="icon">🔍</div>
                             No PHP packages match your filter
                         </div>
                     </div>
 
                     <div class="pkg-grid" x-show="activeTab === 'npm'" x-cloak>
-                        <template
-                            x-for="(pkg, i) in filteredNpm"
-                            :key="pkg.name"
-                        >
-                            <div
-                                class="pkg-card"
-                                :style="`animation-delay: ${i * 30}ms`"
-                            >
+                        <template x-for="(pkg, i) in filteredNpm" :key="pkg.name">
+                            <div class="pkg-card" :style="`animation-delay: ${i * 30}ms`">
                                 <div>
                                     <div class="pkg-name npm">
-                                        <a
-                                            :href="`https://www.npmjs.com/package/${pkg.name}`"
-                                            target="_blank"
-                                            x-text="pkg.name"
-                                        ></a>
+                                        <a :href="`https://www.npmjs.com/package/${pkg.name}`" target="_blank" x-text="pkg.name"></a>
                                     </div>
                                     <template x-if="pkg.loading">
                                         <div class="skeleton-desc"></div>
                                     </template>
                                     <template x-if="!pkg.loading">
                                         <div>
-                                            <div
-                                                class="pkg-desc"
-                                                x-text="pkg.description || 'No description available'"
-                                            ></div>
-                                            <a
-                                                x-show="pkg.gitlab"
-                                                :href="pkg.gitlab"
-                                                target="_blank"
-                                                class="pkg-github"
-                                                >GitHub →</a
-                                            >
+                                            <div class="pkg-desc" x-text="pkg.description || 'No description available'"></div>
+                                            <a x-show="pkg.gitlab" :href="pkg.gitlab" target="_blank" class="pkg-github">GitHub →</a>
                                         </div>
                                     </template>
                                     <div class="pkg-meta">
-                                        <span
-                                            class="ver-required"
-                                            x-text="'requires: ' + pkg.required"
-                                        ></span>
-                                        <span
-                                            class="ver-installed npm"
-                                            x-show="pkg.version"
-                                            x-text="pkg.version"
-                                        ></span>
+                                        <span class="ver-required" x-text="'requires: ' + pkg.required"></span>
+                                        <span class="ver-installed npm" x-show="pkg.version" x-text="pkg.version"></span>
                                     </div>
                                 </div>
                                 <div class="pkg-right">
-                                    <span class="dev-badge" x-show="pkg.dev"
-                                        >dev</span
-                                    >
+                                    <span class="dev-badge" x-show="pkg.dev">dev</span>
                                 </div>
                             </div>
                         </template>
-                        <div
-                            class="empty-state"
-                            x-show="filteredNpm.length === 0"
-                        >
+                        <div class="empty-state" x-show="filteredNpm.length === 0">
                             <div class="icon">🔍</div>
                             No NPM packages match your filter
                         </div>
@@ -323,9 +211,7 @@
             </div>
 
             <!-- Welcome state -->
-            <template
-                x-if="!phpPackages.length && !npmPackages.length && !loading && !error"
-            >
+            <template x-if="!phpPackages.length && !npmPackages.length && !loading && !error">
                 <div class="empty-state">
                     <div class="icon">📦</div>
                     Paste or upload your
@@ -337,27 +223,25 @@
             </template>
 
             <footer>
-                <p>
-                    © <span x-text="new Date().getFullYear()"></span> DepsViewer
-                </p>
+                <p>© <span x-text="new Date().getFullYear()"></span> DepsViewer <span x-text="`v${APP_VERSION}`"></span></p>
             </footer>
         </div>
 
         <script src="js/app.js" type="module"></script>
         <script>
-            document.addEventListener("alpine:init", () => {
-                Alpine.data("packagesData", () => ({
-                    composerJson: "",
-                    packageJson: "",
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('packagesData', () => ({
+                    composerJson: '',
+                    packageJson: '',
                     phpPackages: [],
                     npmPackages: [],
-                    activeTab: "php",
-                    searchQ: "",
-                    devFilter: "all",
+                    activeTab: 'php',
+                    searchQ: '',
+                    devFilter: 'all',
                     loading: false,
-                    error: "",
+                    error: '',
                     progress: 0,
-                    statusMsg: "",
+                    statusMsg: '',
 
                     get phpDevPackages() {
                         return this.phpPackages.filter((p) => p.dev);
@@ -368,32 +252,22 @@
                     get filteredPhp() {
                         return this.phpPackages.filter((p) => {
                             const q = this.searchQ.toLowerCase();
-                            const matchSearch =
-                                !q ||
-                                p.name.toLowerCase().includes(q) ||
-                                (p.description || "").toLowerCase().includes(q);
-                            const matchDev =
-                                this.devFilter === "all" ||
-                                (this.devFilter === "dev" ? p.dev : !p.dev);
+                            const matchSearch = !q || p.name.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q);
+                            const matchDev = this.devFilter === 'all' || (this.devFilter === 'dev' ? p.dev : !p.dev);
                             return matchSearch && matchDev;
                         });
                     },
                     get filteredNpm() {
                         return this.npmPackages.filter((p) => {
                             const q = this.searchQ.toLowerCase();
-                            const matchSearch =
-                                !q ||
-                                p.name.toLowerCase().includes(q) ||
-                                (p.description || "").toLowerCase().includes(q);
-                            const matchDev =
-                                this.devFilter === "all" ||
-                                (this.devFilter === "dev" ? p.dev : !p.dev);
+                            const matchSearch = !q || p.name.toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q);
+                            const matchDev = this.devFilter === 'all' || (this.devFilter === 'dev' ? p.dev : !p.dev);
                             return matchSearch && matchDev;
                         });
                     },
 
                     handleFileSelect(event) {
-                        this.error = "";
+                        this.error = '';
 
                         this.progress = 0;
                         const file = event.target.files[0];
@@ -406,59 +280,43 @@
                             try {
                                 const jsonData = JSON.parse(e.target.result);
 
-                                if (inputId === "composerUpload") {
+                                if (inputId === 'composerUpload') {
                                     this.phpPackages = [];
-                                    if (
-                                        file.name.toLowerCase() !==
-                                        "composer.json"
-                                    ) {
-                                        this.error =
-                                            "Please upload a valid composer.json file.";
+                                    if (file.name.toLowerCase() !== 'composer.json') {
+                                        this.error = 'Please upload a valid composer.json file.';
                                         return;
                                     }
-                                    this.composerJson = JSON.stringify(
-                                        jsonData,
-                                        null,
-                                        2,
-                                    );
-                                } else if (inputId === "packageUpload") {
+                                    this.composerJson = JSON.stringify(jsonData, null, 2);
+                                } else if (inputId === 'packageUpload') {
                                     this.npmPackages = [];
-                                    if (
-                                        file.name.toLowerCase() !==
-                                        "package.json"
-                                    ) {
-                                        this.error =
-                                            "Please upload a valid package.json file.";
+                                    if (file.name.toLowerCase() !== 'package.json') {
+                                        this.error = 'Please upload a valid package.json file.';
                                         return;
                                     }
                                     this.npmPackages = [];
-                                    this.packageJson = JSON.stringify(
-                                        jsonData,
-                                        null,
-                                        2,
-                                    );
+                                    this.packageJson = JSON.stringify(jsonData, null, 2);
                                 }
                             } catch (error) {
-                                console.error("Invalid JSON file.", error);
+                                console.error('Invalid JSON file.', error);
                             }
                         };
                         reader.readAsText(file);
-                        event.target.value = "";
+                        event.target.value = '';
                     },
 
                     clear() {
                         this.phpPackages = [];
                         this.npmPackages = [];
-                        this.error = "";
-                        this.composerJson = "";
-                        this.packageJson = "";
+                        this.error = '';
+                        this.composerJson = '';
+                        this.packageJson = '';
                         this.progress = 0;
                     },
 
                     async analyze() {
                         if (this.loading) return;
 
-                        this.error = "";
+                        this.error = '';
                         this.phpPackages = [];
                         this.npmPackages = [];
                         this.progress = 0;
@@ -471,29 +329,17 @@
                             try {
                                 const data = JSON.parse(this.composerJson);
                                 const req = data.require || {};
-                                const reqDev = data["require-dev"] || {};
-                                for (const [name, version] of Object.entries(
-                                    req,
-                                )) {
-                                    if (
-                                        name === "php" ||
-                                        name.startsWith("ext-")
-                                    )
-                                        continue;
+                                const reqDev = data['require-dev'] || {};
+                                for (const [name, version] of Object.entries(req)) {
+                                    if (name === 'php' || name.startsWith('ext-')) continue;
                                     phpEntries.push({
                                         name,
                                         required: version,
                                         dev: false,
                                     });
                                 }
-                                for (const [name, version] of Object.entries(
-                                    reqDev,
-                                )) {
-                                    if (
-                                        name === "php" ||
-                                        name.startsWith("ext-")
-                                    )
-                                        continue;
+                                for (const [name, version] of Object.entries(reqDev)) {
+                                    if (name === 'php' || name.startsWith('ext-')) continue;
                                     phpEntries.push({
                                         name,
                                         required: version,
@@ -501,7 +347,7 @@
                                     });
                                 }
                             } catch {
-                                this.error = "Invalid JSON in composer.json";
+                                this.error = 'Invalid JSON in composer.json';
                                 return;
                             }
                         }
@@ -512,18 +358,14 @@
                                 const data = JSON.parse(this.packageJson);
                                 const dep = data.dependencies || {};
                                 const devDep = data.devDependencies || {};
-                                for (const [name, version] of Object.entries(
-                                    dep,
-                                )) {
+                                for (const [name, version] of Object.entries(dep)) {
                                     npmEntries.push({
                                         name,
                                         required: version,
                                         dev: false,
                                     });
                                 }
-                                for (const [name, version] of Object.entries(
-                                    devDep,
-                                )) {
+                                for (const [name, version] of Object.entries(devDep)) {
                                     npmEntries.push({
                                         name,
                                         required: version,
@@ -531,31 +373,30 @@
                                     });
                                 }
                             } catch {
-                                this.error = "Invalid JSON in package.json";
+                                this.error = 'Invalid JSON in package.json';
                                 return;
                             }
                         }
 
                         if (!phpEntries.length && !npmEntries.length) {
-                            this.error =
-                                'No packages found. Make sure your JSON was added and has "require" or "dependencies" keys.';
+                            this.error = 'No packages found. Make sure your JSON was added and has "require" or "dependencies" keys.';
                             return;
                         }
 
                         this.loading = true;
-                        this.activeTab = phpEntries.length ? "php" : "npm";
+                        this.activeTab = phpEntries.length ? 'php' : 'npm';
 
                         // Init cards with loading state
                         this.phpPackages = phpEntries.map((e) => ({
                             ...e,
-                            description: "",
-                            version: "",
+                            description: '',
+                            version: '',
                             loading: true,
                         }));
                         this.npmPackages = npmEntries.map((e) => ({
                             ...e,
-                            description: "",
-                            version: "",
+                            description: '',
+                            version: '',
                             loading: true,
                         }));
 
@@ -571,24 +412,17 @@
                         // Fetch PHP packages from Packagist
                         const phpPromises = phpEntries.map(async (entry, i) => {
                             try {
-                                const r = await fetch(
-                                    `https://packagist.org/packages/${entry.name}.json`,
-                                );
+                                const r = await fetch(`https://packagist.org/packages/${entry.name}.json`);
                                 if (r.ok) {
                                     const data = await r.json();
                                     const pkg = data.package;
-                                    console.log("Packagist data for", pkg);
+                                    console.log('Packagist data for', pkg);
 
                                     if (pkg && this.phpPackages[i]) {
-                                        this.phpPackages[i].description =
-                                            pkg.description || "";
-                                        const versions = Object.values(
-                                            pkg.versions || {},
-                                        );
-                                        this.phpPackages[i].version =
-                                            versions[0]?.version || "";
-                                        this.phpPackages[i].gitlab =
-                                            pkg.repository || "";
+                                        this.phpPackages[i].description = pkg.description || '';
+                                        const versions = Object.values(pkg.versions || {});
+                                        this.phpPackages[i].version = versions[0]?.version || '';
+                                        this.phpPackages[i].gitlab = pkg.repository || '';
                                     }
                                 }
                             } catch {}
@@ -603,29 +437,19 @@
                         // Fetch NPM packages from registry
                         const npmPromises = npmEntries.map(async (entry, i) => {
                             try {
-                                const r = await fetch(
-                                    `https://registry.npmjs.org/${entry.name}/latest`,
-                                );
+                                const r = await fetch(`https://registry.npmjs.org/${entry.name}/latest`);
                                 if (r.ok) {
                                     const data = await r.json();
                                     const repo = data.repository;
 
                                     this.npmPackages[i].gitlab =
-                                        typeof repo === "string"
-                                            ? repo
-                                                  .replace("git+", "")
-                                                  .replace("git:", "https:")
-                                                  .replace(".git", "")
-                                            : repo?.url
-                                                  ?.replace("git+", "")
-                                                  .replace("git:", "https:")
-                                                  .replace(".git", "") || "";
+                                        typeof repo === 'string'
+                                            ? repo.replace('git+', '').replace('git:', 'https:').replace('.git', '')
+                                            : repo?.url?.replace('git+', '').replace('git:', 'https:').replace('.git', '') || '';
 
                                     if (this.npmPackages[i]) {
-                                        this.npmPackages[i].description =
-                                            data.description || "";
-                                        this.npmPackages[i].version =
-                                            data.version || "";
+                                        this.npmPackages[i].description = data.description || '';
+                                        this.npmPackages[i].version = data.version || '';
                                     }
                                 }
                             } catch {}
