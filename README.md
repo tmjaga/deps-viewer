@@ -13,7 +13,6 @@ DepsViewer is a lightweight, zero-backend tool for visualizing PHP (Composer) an
 - **Paste or upload** — type/paste JSON directly or upload your manifest files
 - **Prod/Dev filtering** — toggle between production, dev, and all packages
 - **Live search** — filter packages by name or description instantly
-- **PDF Export** — export a full report of your dependencies to a clean PDF file
 - **Zero backend** — entirely client-side; no server, no build step needed for the viewer itself
 
 ---
