@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.1.1](https://github.com/tmjaga/deps-viewer/compare/v1.1.0...v1.1.1) (2026-04-23)
+
+
+### Bug Fixes
+
+* readme.md updated ([684c91f](https://github.com/tmjaga/deps-viewer/commit/684c91f22d9bf44eeff9283399f21b149c05ea25))
+* remove skip-github-pull-request option from release-please workflow ([0c80730](https://github.com/tmjaga/deps-viewer/commit/0c80730681f4dce52d8990631a6dd5526a3c017d))
+* remove skip-github-pull-request option from release-please workflow ([3f3e1cc](https://github.com/tmjaga/deps-viewer/commit/3f3e1cc67459db883bc181d2df0faa3b4f0a85d7))
+* test release flow ([6e7bcbc](https://github.com/tmjaga/deps-viewer/commit/6e7bcbc58e46b19bb938f9d459c19e87d7945829))
+* test release flow ([c426f4f](https://github.com/tmjaga/deps-viewer/commit/c426f4fe96d97483a79fb6159e2386ac47dc3409))
+* trigger release ([6b42339](https://github.com/tmjaga/deps-viewer/commit/6b42339869bbec8dd1ec718f2320892f5fb82f65))
+
 ## [1.1.0](https://github.com/tmjaga/deps-viewer/compare/v1.0.0...v1.1.0) (2026-04-23)
 
 
