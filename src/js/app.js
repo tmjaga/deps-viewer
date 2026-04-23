@@ -1,4 +1,9 @@
 import Alpine from 'alpinejs';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
+window.jsPDF = jsPDF;
+window.autoTable = autoTable;
 
 window.APP_VERSION = __APP_VERSION__;
 window.Alpine = Alpine;

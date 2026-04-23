@@ -27,11 +27,7 @@
                         <span class="badge badge-php">PHP</span>
                         <span class="panel-title">composer.json</span>
                     </div>
-                    <textarea
-                        x-model="composerJson"
-                        placeholder='{"require": {"laravel/framework": "^11.0", "spatie/permission": "^6.0"}, "require-dev": {"phpunit/phpunit": "^11.0"}}'
-                        spellcheck="false"
-                    ></textarea>
+                    <textarea x-model="composerJson" placeholder='{"require": {"laravel/framework": "^11.0", "spatie/permission": "^6.0"}, "require-dev": {"phpunit/phpunit": "^11.0"}}' spellcheck="false"></textarea>
                     <input @change="handleFileSelect" type="file" id="composerUpload" accept=".json" />
                 </div>
                 <div class="panel npm">
@@ -39,11 +35,7 @@
                         <span class="badge badge-npm">NPM</span>
                         <span class="panel-title">package.json</span>
                     </div>
-                    <textarea
-                        x-model="packageJson"
-                        placeholder='{"dependencies": {"axios": "^1.6.0", "vue": "^3.4.0"}, "devDependencies": {"vite": "^5.0.0"}}'
-                        spellcheck="false"
-                    ></textarea>
+                    <textarea x-model="packageJson" placeholder='{"dependencies": {"axios": "^1.6.0", "vue": "^3.4.0"}, "devDependencies": {"vite": "^5.0.0"}}' spellcheck="false"></textarea>
                     <input @change="handleFileSelect" type="file" id="packageUpload" accept=".json" />
                 </div>
             </div>
@@ -99,48 +91,40 @@
 
                     <!-- Tabs -->
                     <div class="tabs">
-                        <button
-                            class="tab"
-                            :class="activeTab === 'php' ? 'active-php' : ''"
-                            @click="activeTab = 'php'; searchQ = ''"
-                            x-show="phpPackages.length"
-                        >
-                            PHP / Composer
-                        </button>
-                        <button
-                            class="tab"
-                            :class="activeTab === 'npm' ? 'active-npm' : ''"
-                            @click="activeTab = 'npm'; searchQ = ''"
-                            x-show="npmPackages.length"
-                        >
-                            NPM / Node
-                        </button>
+                        <button class="tab" :class="activeTab === 'php' ? 'active-php' : ''" @click="activeTab = 'php'; searchQ = ''" x-show="phpPackages.length">PHP / Composer</button>
+                        <button class="tab" :class="activeTab === 'npm' ? 'active-npm' : ''" @click="activeTab = 'npm'; searchQ = ''" x-show="npmPackages.length">NPM / Node</button>
+
+                        <!-- Export buttons -->
+                        <div class="tabs-actions" style="margin-left: auto; display: flex; gap: 8px">
+                            <button class="btn-export" @click="exportPhpToPdf()" x-show="phpPackages.length > 0 && activeTab === 'php'" title="Export PHP Dependencies to PDF">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                PHP PDF
+                            </button>
+                            <button class="btn-export" @click="exportNpmToPdf()" x-show="npmPackages.length > 0 && activeTab === 'npm'" title="Export NPM Dependencies to PDF">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                NPM PDF
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Filter row -->
                     <div class="filter-row">
                         <input type="text" class="search-box" :class="activeTab" placeholder="Search packages..." x-model="searchQ" />
-                        <button
-                            class="filter-chip"
-                            :class="devFilter === 'all' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''"
-                            @click="devFilter = 'all'"
-                        >
-                            All
-                        </button>
-                        <button
-                            class="filter-chip"
-                            :class="devFilter === 'prod' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''"
-                            @click="devFilter = 'prod'"
-                        >
-                            Prod
-                        </button>
-                        <button
-                            class="filter-chip"
-                            :class="devFilter === 'dev' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''"
-                            @click="devFilter = 'dev'"
-                        >
-                            Dev
-                        </button>
+                        <button class="filter-chip" :class="devFilter === 'all' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''" @click="devFilter = 'all'">All</button>
+                        <button class="filter-chip" :class="devFilter === 'prod' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''" @click="devFilter = 'prod'">Prod</button>
+                        <button class="filter-chip" :class="devFilter === 'dev' ? (activeTab === 'php' ? 'active-php' : 'active-npm') : ''" @click="devFilter = 'dev'">Dev</button>
                     </div>
 
                     <!-- Cards -->
@@ -223,7 +207,12 @@
             </template>
 
             <footer>
-                <p>© <span x-text="new Date().getFullYear()"></span> DepsViewer <span x-text="`v${APP_VERSION}`"></span></p>
+                <p>
+                    ©
+                    <span x-text="new Date().getFullYear()"></span>
+                    DepsViewer
+                    <span x-text="`v${APP_VERSION}`"></span>
+                </p>
             </footer>
         </div>
 
@@ -311,6 +300,47 @@
                         this.composerJson = '';
                         this.packageJson = '';
                         this.progress = 0;
+                    },
+
+                    exportPhpToPdf() {
+                        this.generatePdf('PHP Dependencies', this.phpPackages);
+                    },
+
+                    exportNpmToPdf() {
+                        this.generatePdf('NPM Dependencies', this.npmPackages);
+                    },
+
+                    generatePdf(title, packages) {
+                        const doc = new jsPDF();
+                        const date = new Date().toLocaleDateString();
+
+                        doc.setFontSize(18);
+                        doc.text(title, 14, 20);
+                        doc.setFontSize(10);
+                        doc.setTextColor(100);
+                        doc.text(`Generated on ${date}`, 14, 26);
+
+                        const tableData = packages.map((pkg) => [pkg.name, pkg.required, pkg.version || 'N/A', pkg.dev ? 'Dev' : 'Prod', (pkg.description || 'No description').substring(0, 80) + (pkg.description?.length > 80 ? '...' : '')]);
+
+                        autoTable(doc, {
+                            startY: 32,
+                            head: [['Package', 'Required', 'Installed', 'Type', 'Description']],
+                            body: tableData,
+                            theme: 'striped',
+                            headStyles: {
+                                fillColor: [40, 45, 55],
+                            },
+                            styles: {
+                                fontSize: 9,
+                            },
+                            columnStyles: {
+                                4: {
+                                    cellWidth: 60,
+                                },
+                            },
+                        });
+
+                        doc.save(`${title.toLowerCase().replace(' ', '-')}.pdf`);
                     },
 
                     async analyze() {
@@ -416,7 +446,6 @@
                                 if (r.ok) {
                                     const data = await r.json();
                                     const pkg = data.package;
-                                    console.log('Packagist data for', pkg);
 
                                     if (pkg && this.phpPackages[i]) {
                                         this.phpPackages[i].description = pkg.description || '';
@@ -442,10 +471,7 @@
                                     const data = await r.json();
                                     const repo = data.repository;
 
-                                    this.npmPackages[i].gitlab =
-                                        typeof repo === 'string'
-                                            ? repo.replace('git+', '').replace('git:', 'https:').replace('.git', '')
-                                            : repo?.url?.replace('git+', '').replace('git:', 'https:').replace('.git', '') || '';
+                                    this.npmPackages[i].gitlab = typeof repo === 'string' ? repo.replace('git+', '').replace('git:', 'https:').replace('.git', '') : repo?.url?.replace('git+', '').replace('git:', 'https:').replace('.git', '') || '';
 
                                     if (this.npmPackages[i]) {
                                         this.npmPackages[i].description = data.description || '';
